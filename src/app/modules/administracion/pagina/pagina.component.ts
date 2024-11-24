@@ -15,6 +15,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccordionComponent } from '../../../general/accordion/accordion.component';
 import { Modal } from 'bootstrap';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import {
   ClassicEditor,
@@ -68,7 +69,8 @@ export class PaginaComponent {
   constructor(
     private paginaService: PaginaService,
     private fb: FormBuilder,
-    private accordionService: AccordionService
+    private accordionService: AccordionService,
+    private router: Router
   ) {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
@@ -76,10 +78,18 @@ export class PaginaComponent {
   }
 
   ngOnInit(): void {
-    this.paginaService.getPage(1).subscribe((data) => {});
-    this.paginaService.getSelectPages().subscribe((data) => {
-      console.log(data);
-      this.pages = data.data;
+    this.paginaService.getSelectPages().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.pages = data.data;
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('isAuthenticated');
+          this.router.navigate(['/login']);
+        }
+      },
     });
   }
 
