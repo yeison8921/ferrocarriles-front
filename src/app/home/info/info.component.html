@@ -1,0 +1,26 @@
+<div class="container p-0 mb-4">
+  <h1 class="titleSection">
+    <span class="pe-2">Información de interés </span>
+  </h1>
+  <div class="d-flex justify-content-center">
+    <div class="botones">
+      <div class="row rowContainer">
+        @for (info of infobtn; track info.id) {
+        <div class="btn-svg m-4">
+          @if (info.state === "disabled") {
+          <a href="#" class="disabled">
+            <img src="{{ urlSvg + info.id + disabledImg }}" />
+          </a>
+          } @else {
+          <a href="{{ info.href }}">
+            <img class="img-active" src="{{ info.url }}" />
+            <img class="img-hover" src="{{ urlSvg + info.id + hover }}" />
+          </a>
+          }
+        </div>
+
+        }
+      </div>
+    </div>
+  </div>
+</div>

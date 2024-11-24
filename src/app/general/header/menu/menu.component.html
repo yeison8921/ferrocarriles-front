@@ -1,0 +1,80 @@
+<div class="container-navbar-menu-govco blue-menu-govco" id="menu">
+  <nav
+    class="navbar navbar-expand-lg navbar-menu-govco"
+    role="navigation"
+    aria-label="Menú ejemplo entidad"
+  >
+    <div class="container-fluid container-second-navbar-menu-govco">
+      <button
+        class="navbar-toggler button-responsive-menu-govco"
+        type="button"
+        aria-controls="navbarScroll"
+        aria-expanded="false"
+        (click)="collapse.toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        [ngClass]="{ collapsed: isCollapsed }"
+      >
+        <span class="icon-bars-menu-govco"></span>
+      </button>
+      <div
+        class="navbar-collapse navbar-collapse-menu-govco"
+        id="navbarScroll"
+        #collapse="ngbCollapse"
+        [(ngbCollapse)]="isCollapsed"
+      >
+        <div class="container-search-icon-menu-govco navbar-toggler">
+          <!-- SEARCH -->
+          <app-search></app-search>
+          <!-- END SEARCH -->
+        </div>
+        <ul class="navbar-nav navbar-nav-menu-govco ms-auto">
+          <li ngbDropdown class="nav-item" *ngFor="let item of menu">
+            <a
+              *ngIf="item.submenu!.length == 0"
+              class="nav-link dir-menu-govco"
+              [ngClass]="item.active ? 'active' : ''"
+              href="{{ item.url }}"
+              role="button"
+              (click)="
+                activarMenu(item.url.split('/')[item.url.split('/').length - 1])
+              "
+            >
+              <span class="text-item-menu-govco"> {{ item.nombre }} </span>
+            </a>
+            <a
+              *ngIf="item.submenu!.length > 0"
+              ngbDropdownToggle
+              class="nav-link dir-menu-govco"
+              [ngClass]="item.active ? 'active' : ''"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span class="text-item-menu-govco"> {{ item.nombre }} </span>
+            </a>
+            <ul ngbDropdownMenu *ngIf="item.submenu!.length > 0">
+              <li *ngFor="let sitem of item.submenu">
+                <a
+                  ngbDropdownItem
+                  class="dir-menu-govco"
+                  [ngClass]="sitem.active ? 'active' : ''"
+                  href="{{ sitem.url }}"
+                  role="button"
+                  (click)="
+                    activarMenu(
+                      sitem.url.split('/')[sitem.url.split('/').length - 1]
+                    )
+                  "
+                >
+                  <span class="text-item-menu-govco">
+                    {{ sitem.nombre }}
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

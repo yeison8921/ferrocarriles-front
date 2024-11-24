@@ -1,0 +1,360 @@
+html {
+  font-size: 100%;
+  /* 100% = 16px */
+}
+
+.container-navbar-menu-govco {
+  background-color: var(--azul-c) !important;
+  width: 100%;
+  max-height: 4.5rem;
+  top: 0;
+}
+
+.navbar-collapse-menu-govco {
+  background-color: var(--azul-c) !important;
+}
+
+.navbar-menu-govco .megamenu-menu-govco,
+.navbar-menu-govco .dropdown-large-menu-govco {
+  background-color: var(--azul-c) !important;
+}
+
+.navbar-menu-govco ul.navbar-nav li {
+  background-color: var(--azul-c);
+}
+
+.navbar-menu-govco ul.navbar-nav li a {
+  white-space: normal;
+  color: var(--azul-o);
+  height: 100%;
+  display: flex;
+  font-size: 0.7rem;
+  line-height: normal !important;
+  font-family: WorkSans-Medium;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem 0.7rem;
+  transition: all 0.5s ease-in-out;
+}
+
+.navbar-menu-govco ul.navbar-nav li a.nav-link.active {
+  font-family: WorkSans-SemiBold;
+}
+
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a.nav-link:not(.active):hover,
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a.nav-link.active,
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a.nav-link[aria-expanded="true"],
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a.nav-link:focus-visible {
+  background-color: var(--azul-o);
+  color: #FFFFFF !important;
+}
+
+.navbar-menu-govco ul.navbar-nav li a.disabled {
+  color: var(--gris) !important;
+}
+
+.navbar-menu-govco ul.navbar-nav li a:focus-visible {
+  outline: max(0.125rem, 0.15em) solid #000000;
+  outline-offset: max(0.188rem, 0.15em);
+  z-index: 1;
+  font-family: WorkSans-SemiBold;
+}
+
+.navbar-menu-govco .dropdown-toggle::after {
+  font-family: "govco-font";
+  content: "\e8b7";
+  background-image: none;
+  width: auto;
+  color: var(--azul-o);
+  transition: all 0.3s ease-in-out;
+  margin-left: 1em;
+  border: 0;
+}
+
+.navbar-menu-govco .dropdown-toggle:hover::after,
+.navbar-menu-govco .dropdown-toggle.show::after {
+  color: white;
+}
+
+.navbar-menu-govco .dropdown-toggle.show::after {
+  transform: rotate(90deg);
+}
+
+.navbar-menu-govco ul.navbar-nav li ul {
+  margin: 0;
+  top: -100%;
+  background-color: var(--azul-o);
+  border-radius: 0;
+  border: 0;
+  display: block;
+  transition: all 0.3s ease-in-out;
+  z-index: -1;
+  padding: 0;
+  opacity: 0;
+}
+
+.navbar-menu-govco .dropdown-menu li {
+  transition: all 0.3s ease-in-out;
+  height: 0;
+}
+
+.navbar-menu-govco ul.navbar-nav li ul.show {
+  top: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  opacity: 1;
+}
+
+.navbar-menu-govco .dropdown-menu.show li {
+  height: 100%;
+}
+
+.navbar-menu-govco ul.navbar-nav li ul li {
+  width: 100%;
+}
+
+.navbar-menu-govco ul.navbar-nav li ul li a {
+  align-items: center;
+  font-family: WorkSans-Regular;
+  color: white;
+  justify-content: start;
+  text-align: start;
+  padding: 0.5rem 0.8rem;
+  padding-bottom: 0;
+}
+
+.navbar-menu-govco ul.navbar-nav li ul li a span {
+  width: 100%;
+  padding: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: white 1px solid;
+}
+
+.navbar-menu-govco ul.navbar-nav li ul li a:not(.active):hover {
+  color: var(--azul-o);
+  background-color: var(--azul-c);
+}
+
+.navbar-menu-govco ul.navbar-nav li ul li a:active,
+.navbar-menu-govco ul.navbar-nav li ul li a.active,
+.navbar-menu-govco ul.navbar-nav li ul li a:not(.active):focus-visible {
+  background-color: #FFFFFF !important;
+  color: var(--gris-o) !important;
+  font-family: WorkSans-Medium;
+}
+
+.navbar-menu-govco ul.navbar-nav li div span {
+  font-size: 0.9rem;
+  color: var(--gris-o);
+}
+
+
+.navbar-menu-govco ul.navbar-nav li a .icon-caret-menu-govco::before {
+  font-family: "govco-font";
+  content: "\e88e";
+  line-height: 1;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--gris-o);
+}
+
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a:hover .icon-caret-menu-govco::before,
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a.active .icon-caret-menu-govco::before,
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a:focus-visible .icon-caret-menu-govco::before,
+.blue-menu-govco .navbar-menu-govco ul.navbar-nav li a[aria-expanded="true"] .icon-caret-menu-govco::before {
+  color: #FFFFFF;
+}
+
+.icon-entidad-menu-govco {
+  content: url(https://qa-govco-and.xyz/cdn-v4/assets/images/Entidad.svg);
+  height: 2.188rem;
+  margin-left: 1.125rem;
+  padding: 0;
+}
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+
+  .navbar-menu-govco {
+    font-size: 0.9rem;
+    margin: 0 auto;
+    padding: 0 !important;
+    border-bottom: var(--azul-o) 0.15rem solid;
+  }
+
+  .navbar-menu-govco .container-second-navbar-menu-govco {
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .navbar-menu-govco .megamenu-menu-govco {
+    padding: 0.6rem;
+    border-radius: 0 0 0.313rem 0.313rem;
+    border: 0;
+    margin-top: -0.16rem !important;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  .navbar-menu-govco .dropdown-large-menu-govco {
+    padding: 0.6rem;
+    border-radius: 0 0 0.313rem 0.313rem;
+    border: 0;
+    margin-top: -0.01rem !important;
+  }
+
+  .navbar-menu-govco ul.navbar-nav-menu-govco {
+    margin: 0 auto;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li {
+    max-width: 13.75rem;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li a span.container-text-icon-menu-govco {
+    display: flex;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li ul li {
+    min-width: 18.75rem;
+    background-color: var(--azul-o);
+  }
+
+  .navbar-menu-govco ul.navbar-nav li div ul li {
+    min-width: auto;
+  }
+
+  .navbar-menu-govco .container-items-govco {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .navbar-menu-govco .colum-item-menu-govco {
+    display: inline-block;
+    max-width: 12.5rem;
+  }
+
+  .navbar-menu-govco .has-megamenu-menu-govco {
+    position: static !important;
+  }
+
+  .navbar-menu-govco .dropdown-large-menu-govco.col-3-menu-govco {
+    min-width: 40.625rem;
+  }
+
+  .navbar-menu-govco .dropdown-large-menu-govco.col-2-menu-govco {
+    min-width: 30rem;
+  }
+}
+
+/* ============ desktop view .end// ============ */
+
+
+/* ============ mobile view ============ */
+@media(max-width: 991px) {
+
+  .container-navbar-menu-govco {
+    min-height: 3.75rem;
+  }
+
+  .navbar-menu-govco .button-responsive-menu-govco {
+    margin: 0.2rem 1.5rem;
+  }
+
+  .icon-bars-menu-govco::before {
+    font-family: "govco-font";
+    content: "\e83f";
+    line-height: 1;
+    font-size: 2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #737373;
+  }
+
+  .navbar-collapse-menu-govco {
+    z-index: 2;
+    position: absolute;
+    top: 3.863rem;
+    width: 100%;
+    margin: 0;
+    left: 0;
+    height: calc(100vh - 3.563rem);
+    transition: none !important;
+  }
+
+  .button-responsive-menu-govco:not(.collapsed) .icon-bars-menu-govco::before {
+    font-family: "govco-font";
+    content: "\eb73";
+  }
+
+  .navbar-menu-govco ul.navbar-nav li a {
+    height: 3rem;
+    justify-content: start;
+    text-align: start;
+    padding-left: 1.5rem !important;
+    padding-right: 1.875rem !important;
+  }
+
+  .navbar-menu-govco.fixed-top .navbar-collapse,
+  .navbar.sticky-top .navbar-collapse {
+    overflow-y: auto;
+    max-height: 90vh;
+    margin-top: 0.625rem;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li div span {
+    padding-left: 1.5rem;
+  }
+
+  .navbar-menu-govco ul.navbar-nav {
+    padding: 0;
+    overflow: auto;
+    height: 60vh;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li a span.text-item-menu-govco {
+    align-items: center;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li a span {
+    display: grid;
+    grid-template-columns: 110fr 1fr;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li ul li {
+    background-color: var(--azul-o);
+  }
+
+  .navbar-menu-govco ul.navbar-nav li ul li a {
+    height: 2rem;
+  }
+
+  .navbar-menu-govco .colum-item-menu-govco {
+    margin-bottom: 0.5rem;
+  }
+
+  .navbar-menu-govco ul.navbar-nav li a.show .icon-caret-menu-govco::before {
+    font-family: "govco-font";
+    content: "\e895";
+  }
+
+  .container-search-icon-menu-govco {
+    border: 0;
+    margin: 0.5rem 1rem;
+    padding: 0;
+  }
+
+  .navbar-menu-govco .megamenu-menu-govco,
+  .navbar-menu-govco .dropdown-large-menu-govco {
+    margin-top: 0 !important;
+  }
+
+  .container-second-navbar-menu-govco {
+    padding: 0;
+  }
+}
+
+/* ============ mobile view .end// ============ */

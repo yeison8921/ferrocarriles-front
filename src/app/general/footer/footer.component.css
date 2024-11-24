@@ -1,0 +1,117 @@
+.gov-fondo {
+  background-color: var(--azul-t);
+  height: 100%;
+  width: 100%;
+  top: 50px;
+}
+
+.govco-data-front {
+  background-color: white;
+  border: 2px solid var(--azul-c);
+  border-radius: 10px 10px 0 0;
+}
+
+h4,
+h5,
+a {
+  color: var(--azul);
+}
+
+h4,
+h5,
+.redes a,
+.gov-link a {
+  font-family: "Montserrat-SemiBold";
+}
+
+p {
+  font-family: "WorkSans-Regular";
+
+  a {
+    word-break: break-all;
+  }
+}
+
+a {
+  text-decoration: none;
+  transition: all 0.5s ease-in-out;
+}
+
+a:hover {
+  color: var(--azul-t);
+}
+
+.redes a::before {
+  font-family: "govco-font";
+}
+
+.icono-twitter::before {
+  content: "\ee16";
+}
+
+.icono-instagram:before {
+  content: "\ed5b";
+}
+
+.icono-facebook {
+  word-break: break-all;
+}
+
+.icono-facebook:before {
+  content: "\ed10";
+}
+
+.icono-youtube:before {
+  content: "\ee52";
+}
+
+.logos-iso img {
+  height: fit-content;
+}
+
+.govco-footer-logo {
+  height: 96px;
+  background-color: var(--azul);
+  width: 100%;
+}
+
+.govco-logo-container {
+  text-align: center;
+  margin-left: unset;
+}
+
+.govco-co {
+  height: 48px;
+  margin-top: 24px;
+  display: inline-block;
+  content: url(https://cdn.www.gov.co/v4/assets/images/logo-colombia.svg);
+}
+
+.govco-separator {
+  border-left: 1px solid #e5eefb;
+  opacity: 1px;
+  height: 44px;
+  margin-left: 10px;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.govco-logo {
+  height: 30px;
+  display: inline-block;
+  content: url(https://cdn.www.gov.co/v4/assets/images/logo.svg);
+  vertical-align: super;
+}
+
+@media (min-width: 576px) {
+  p a {
+    word-break: auto-phrase;
+  }
+}
+
+@media (min-width: 992px) {
+  .govco-logo-container {
+    margin-left: 80px;
+    text-align: start;
+  }
+}

@@ -1,0 +1,27 @@
+<header class="bg-white {{ tipo }}" id="header">
+  <app-topbar id="topbar"></app-topbar>
+  <div class="row m-0 div-superior bg-white" id="logos">
+    <div class="col-12 col-lg-9 py-2 d-flex align-items-center div-logo">
+      <a href="/" rel="home">
+        <img src="assets/img/logos/logo_fps.svg" class="logo" />
+      </a>
+      <a class="col-4 col-sm-3 col-lg-2 px-2 px-xl-4" href="/" rel="home">
+        <img
+          class="img-fluid"
+          src="assets/img/logos/logo_colombia_potencia_de_vida.png"
+        />
+      </a>
+    </div>
+    <div
+      class="col-12 col-lg-3 d-flex align-items-center justify-content-center p-2"
+    >
+      <app-user-menu
+        class="d-none d-lg-block col-12 col-sm-8 col-lg-12"
+      ></app-user-menu>
+      <!-- <app-search
+        class="d-none d-lg-block col-12 col-sm-8 col-lg-12"
+      ></app-search> -->
+    </div>
+  </div>
+  <app-menu></app-menu>
+</header>

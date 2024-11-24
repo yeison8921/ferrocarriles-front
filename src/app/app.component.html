@@ -1,0 +1,11 @@
+<div *ngIf="authService.isAuthenticated(); else notLoggedIn">
+  <app-header></app-header>
+  <app-header tipo="oculto"></app-header>
+  <app-accessibility />
+  <router-outlet />
+  <app-footer></app-footer>
+</div>
+
+<ng-template #notLoggedIn>
+  <app-layout-login></app-layout-login>
+</ng-template>

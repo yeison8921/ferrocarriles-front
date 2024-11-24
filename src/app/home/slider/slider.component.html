@@ -1,0 +1,16 @@
+<ngb-carousel
+  #carousel
+  [interval]="10000"
+  [pauseOnHover]="pauseOnHover"
+  [pauseOnFocus]="pauseOnFocus"
+  (slide)="onSlide($event)"
+  class="slyder bg-azul"
+>
+  @for (slide of slider; track slide) {
+  <ng-template ngbSlide>
+    <a href="{{ slide.url }}" rel="nofollow noopener noreferrer">
+      <img class="img-fluid" [src]="slide.imagen" />
+    </a>
+  </ng-template>
+  }
+</ngb-carousel>

@@ -1,0 +1,36 @@
+header {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+}
+
+.oculto {
+    position: relative;
+    opacity: 0;
+    z-index: -1000;
+}
+
+.div-logo {
+    justify-content: center;
+}
+
+.logo {
+    width: 90%;
+}
+
+@media (min-width: 576px) {
+    .logo {
+        width: auto;
+    }
+}
+
+@media (min-width: 992px) {
+    .div-logo {
+        justify-content: start;
+    }
+
+    .div-superior {
+        padding-left: 4.375rem;
+        padding-right: 4.375rem;
+    }
+}

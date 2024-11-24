@@ -1,0 +1,183 @@
+html {
+  font-size: 100%;
+  /* 100% = 1rem */
+}
+
+.search-govco {
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.search-govco .bar-search-govco {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  z-index: 12;
+  padding: 0.2rem;
+}
+
+.search-govco .input-search-govco {
+  width: 100%;
+  font-family: WorkSans-Regular;
+  height: 2.625rem;
+  border-radius: 1.5rem;
+  border: 0.063rem solid var(--gris-o);
+  background-color: #ffffff;
+  color: var(--gris-o);
+  outline: 0;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 5.5rem 0 1rem;
+}
+
+.search-govco .bar-search-govco.active .input-search-govco {
+  padding: 0 5.5rem 0 1rem;
+}
+
+.search-govco .icon-search-govco {
+  position: absolute;
+  border: 0;
+  background: #ffffff;
+  padding: 0;
+}
+
+.search-govco .icon-close-search-govco {
+  right: 3.3rem;
+  padding: 0;
+  border-right: 0.063rem solid var(--gris-o);
+  padding-right: 0.625rem;
+  padding-left: 0.625rem;
+  display: none;
+  cursor: pointer;
+  line-height: initial;
+}
+
+.search-govco .icon-close-search-govco::after {
+  font-family: "govco-font";
+  content: "\eb73";
+  font-size: 1.5rem;
+  color: var(--azul);
+}
+
+.search-govco .search-icon-search-govco {
+  right: 0.45rem;
+  background-color: var(--azul);
+  border-radius: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.625rem;
+}
+
+.search-govco .search-icon-search-govco::after {
+  font-family: "govco-font";
+  content: "\eae1";
+  font-size: 1rem;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.search-govco .container-options-search-govco {
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding-top: 2.8rem;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 1.5rem 1.5rem 0.125rem 0.125rem;
+  border: 0.125rem solid var(--azul);
+  -webkit-box-shadow: 0 0.188rem 0.375rem #00000029;
+  -moz-box-shadow: 0 0.188rem 0.375rem #00000029;
+  box-shadow: 0 0.188rem 0.375rem #00000029;
+  text-align: center;
+  z-index: 10;
+  position: absolute;
+  display: none;
+  margin: 0.2rem;
+}
+
+.search-govco .options-search-govco {
+  max-height: 12.063rem;
+  margin-top: 0;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+}
+
+.search-govco .options-search-govco::-webkit-scrollbar {
+  width: 0.625rem;
+}
+
+.search-govco .options-search-govco::-webkit-scrollbar-track {
+  background: var(--azul-o) 0% 0% no-repeat padding-box;
+  border-radius: 0.75rem;
+}
+
+.search-govco .options-search-govco::-webkit-scrollbar-thumb {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 0.75rem;
+  -webkit-box-shadow: 0 0.188rem 0.375rem #00000029;
+  -moz-box-shadow: 0 0.188rem 0.375rem #00000029;
+  box-shadow: 0 0.188rem 0.375rem #00000029;
+  border: 0.125rem solid transparent;
+}
+
+.search-govco .options-search-govco ul {
+  margin: 0;
+  text-align: left;
+  list-style: none;
+  padding-left: 0;
+}
+
+.search-govco .options-search-govco ul li a {
+  color: var(--gris-o);
+  font-size: 1rem;
+  font-family: WorkSans-Regular;
+  padding: 0.75rem 0 0.75rem 1rem;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+}
+
+.search-govco .options-search-govco ul li a strong {
+  font-family: WorkSans-SemiBold;
+}
+
+.search-govco .options-search-govco ul li:not(.selected):hover,
+.search-govco .options-search-govco ul li:not(.selected) a:focus {
+  background: var(--azul-c);
+}
+
+.search-govco .options-search-govco ul li:not(.selected) a:active {
+  background-color: var(--azul);
+  color: #ffffff;
+}
+
+.search-govco .bar-search-govco.active .input-search-govco {
+  border: 0.125rem solid var(--azul);
+}
+
+.search-govco .bar-search-govco.active ~ .container-options-search-govco,
+.search-govco .bar-search-govco.exist-content .icon-close-search-govco {
+  display: inline;
+}
+
+.search-govco .bar-search-govco.active .search-icon-search-govco {
+  background-color: var(--azul);
+}
+
+.search-govco input:disabled {
+  background-color: var(--gris-c);
+}
+
+.search-govco
+  .bar-search-govco:not(.active):not(.disabled)
+  input:focus-visible {
+  outline: max(0.125rem, 0.15em) solid #000000;
+  outline-offset: max(0.125rem, 0.15em);
+}

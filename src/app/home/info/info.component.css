@@ -1,0 +1,48 @@
+.textP {
+  color: var(--azul-o);
+  font-family: "WorkSans-Bold";
+  font-size: 1.3rem;
+}
+
+.botones {
+  max-width: 950px;
+
+  .rowContainer {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+h1 {
+  text-align: start;
+  position: relative;
+  color: var(--azul-t);
+}
+
+h1 span {
+  background: #fff;
+  z-index: 1;
+  position: relative;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 0.2rem;
+  left: 0px;
+  top: 60%;
+  background: var(--azul-t);
+  z-index: 0;
+}
+
+.titleSection {
+  color: var(--azul-t);
+}
+
+.textColor {
+  color: var(--azul-o);
+  margin: 2%;
+  text-align: start;
+  position: relative;
+}

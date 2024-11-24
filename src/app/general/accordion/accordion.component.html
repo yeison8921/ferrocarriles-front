@@ -1,0 +1,263 @@
+<div id="inputHidden"></div>
+<!-- Modal categorias -->
+<div
+  class="modal fade"
+  id="modalCategories"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTitleCategories"></h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="modal-body" id="modalBodyCategories">
+          <div class="text-end">
+            <button
+              type="button"
+              class="btn btn-info"
+              (click)="addCategoryToForm()"
+            >
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+
+          <ng-container formArrayName="elements">
+            <table id="categoryTable" class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let element of elements.controls; let i = index">
+                  <ng-container [formGroupName]="i">
+                    <td>
+                      <input
+                        class="form-control"
+                        type="text"
+                        formControlName="nombre"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          element.get('nombre')?.invalid &&
+                          element.get('nombre')?.touched
+                        "
+                        class="error"
+                      >
+                        El Nombre es requerido.
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="btn btn-danger"
+                        (click)="removeCategoryForm(i)"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </ng-container>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="form.invalid || elements.length == 0"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal files -->
+<div
+  class="modal fade"
+  id="modalDocuments"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalTitleFiles"></h1>
+        <button
+          type="button"
+          class="btn-close"
+          (click)="closeModalDocuments()"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" id="modalBodyDocuments">
+        <ngx-dropzone
+          (change)="onSelect($event)"
+          [expandable]="true"
+          [multiple]="true"
+          [accept]="
+            'application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation,image/jpeg,image/jpg,image/png,image/gif'
+          "
+        >
+          <ngx-dropzone-label
+            >Selecciones o arrastre los archivos</ngx-dropzone-label
+          >
+          <ngx-dropzone-preview
+            *ngFor="let f of files"
+            [removable]="true"
+            (removed)="onRemove(f)"
+          >
+            <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+          </ngx-dropzone-preview>
+        </ngx-dropzone>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="closeModalDocuments()"
+        >
+          Cerrar
+        </button>
+        <button (click)="submitFiles()" type="button" class="btn btn-primary">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div ngbAccordion>
+  <div ngbAccordionItem [collapsed]="true">
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>
+        {{ category.nombre }}
+      </button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div
+          class="text-end"
+          [ngClass]="{
+            'd-none': !isAdmin
+          }"
+        >
+          <button
+            type="button"
+            class="btn btn-info btn-sm me-1"
+            (click)="
+              cleanForm();
+              setCategorySelected(category.nombre, category.id);
+              openModalCategories()
+            "
+          >
+            <i class="fas fa-plus"></i> Agregar subcategoría
+          </button>
+          <button
+            class="btn btn-warning btn-sm me-1"
+            (click)="
+              setCategorySelected(category.nombre, category.id);
+              changeCategoryName()
+            "
+          >
+            <i class="fas fa-edit"></i> Editar
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="
+              setCategorySelected(category.nombre, category.id);
+              deleteCategory()
+            "
+          >
+            <i class="fas fa-trash"></i> Eliminar
+          </button>
+        </div>
+        <div
+          class="text-end mt-2"
+          [ngClass]="{
+            'd-none': !isAdmin
+          }"
+        >
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            (click)="
+              setCategorySelected(category.nombre, category.id);
+              openModalDocuments()
+            "
+          >
+            <i class="fas fa-upload"></i> Subir archivos
+          </button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Documentos</th>
+              <th
+                [ngClass]="{
+                  'd-none': !isAdmin
+                }"
+              >
+                Acciones
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let documento of category.documentos">
+              <td *ngIf="documento" width="80%">
+                <a [href]="documento.url" target="_blank">{{
+                  documento.nombre
+                }}</a>
+              </td>
+              <td
+                *ngIf="documento"
+                [ngClass]="{
+                  'd-none': !isAdmin
+                }"
+              >
+                <button
+                  class="btn btn-danger"
+                  (click)="deleteDocument(documento.nombre, documento.id)"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngFor="let child of category.categorias_recursive">
+          <app-accordion
+            *ngIf="child"
+            [category]="child"
+            [isAdmin]="isAdmin"
+            [sectionId]="sectionId"
+            (pageSelectionChanged)="reloadData()"
+          >
+          </app-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

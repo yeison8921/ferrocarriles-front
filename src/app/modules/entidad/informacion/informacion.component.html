@@ -1,0 +1,51 @@
+<div>
+  <h1 class="titulo-h1">{{ title }}</h1>
+  <div *ngIf="sectionId <= 6" [innerHTML]="content"></div>
+  <div *ngIf="sectionId >= 7 || sectionId <= 12">
+    <div *ngFor="let section of sections; let i = index">
+      <div *ngFor="let categoria of section.categorias; let i = index">
+        <app-accordion [category]="categoria" [isAdmin]="false"></app-accordion>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="sectionId == 13">
+    <div *ngFor="let area of areas; let i = index">
+      <div ngbAccordion>
+        <div ngbAccordionItem [collapsed]="true">
+          <h2 ngbAccordionHeader>
+            <button ngbAccordionButton>{{ area.nombre }}</button>
+          </h2>
+          <div ngbAccordionCollapse>
+            <div ngbAccordionBody>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>NOMBRE</th>
+                    <th>CARGO</th>
+                    <th>CORREO ELECTRÓNICO</th>
+                    <th>UBICACIÓN / SEDE</th>
+                    <th>CIUDAD</th>
+                    <th>TELÉFONO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let funcionario of area.funcionarios; let i = index"
+                  >
+                    <td>{{ funcionario?.nombre }}</td>
+                    <td>{{ funcionario?.cargo }}</td>
+                    <td>{{ funcionario?.correo }}</td>
+                    <td>{{ funcionario?.ubicacion }}</td>
+                    <td>{{ funcionario?.ciudad }}</td>
+                    <td>{{ funcionario?.telefono }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

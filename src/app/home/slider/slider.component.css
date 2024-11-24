@@ -1,0 +1,11 @@
+.slyder {
+  width: 100%;
+  flex-flow: row wrap;
+  margin: 0;
+  height: auto;
+
+  .imgSize {
+    width: 100%;
+    object-fit: cover;
+  }
+}

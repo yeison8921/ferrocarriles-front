@@ -1,0 +1,34 @@
+a,
+span {
+    text-decoration: none;
+    color: var(--azul-t);
+    font-family: "WorkSans-Regular";
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+    color: var(--azul-o);
+}
+
+a::after,
+span::after {
+    font-family: "govco-font";
+    content: "\e8b7";
+    font-size: 0.8rem;
+    margin-left: 0.4rem;
+    color: var(--gris-o);
+}
+
+.titulo {
+    color: var(--amarillo);
+    font-family: "WorkSans-Medium";
+}
+
+a,
+span {
+    margin-right: 0.5rem;
+}
+
+.titulo::after {
+    content: "";
+}
