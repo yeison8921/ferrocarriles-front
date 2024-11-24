@@ -62,9 +62,8 @@ export class InformacionComponent implements OnInit {
 
     this.sectionId = parseInt(this.json[this.section].toString(), 10);
 
-    this.informacionService
-      .getPaginas(this.json[this.section])
-      .subscribe((data) => {
+    this.informacionService.getPaginas(this.json[this.section]).subscribe({
+      next: (data) => {
         this.title = data.nombre;
         this.content = data.contenido;
         if (data.directorios.length != 0) {
@@ -73,7 +72,15 @@ export class InformacionComponent implements OnInit {
         if (this.sectionId >= 7 || this.sectionId <= 12) {
           this.sections = data.secciones;
         }
-      });
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('isAuthenticated');
+          this.router.navigate(['/login']);
+        }
+      },
+    });
 
     // this.sectionId = parseInt(this.json[this.section].toString(), 10);
 
