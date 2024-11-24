@@ -16,12 +16,14 @@ interface UpdatePageResponse {
 })
 export class UsuarioService {
   private apiUrl = environment.apiUrl;
-  private headers: HttpHeaders;
 
-  constructor(private http: HttpClient, public authService: AuthService) {
-    this.headers = new HttpHeaders({
+  constructor(private http: HttpClient, public authService: AuthService) {}
+
+  private getHeaders() {
+    return new HttpHeaders({
       'Content-Type': 'application/json',
-    }).set('Authorization', `Bearer ${authService.token()}`);
+      Authorization: `Bearer ${this.authService.token()}`,
+    });
   }
 
   getRoles(): Observable<any> {
@@ -29,35 +31,25 @@ export class UsuarioService {
       `${this.apiUrl}/roles/select`,
       {},
       {
-        headers: this.headers,
+        headers: this.getHeaders(),
       }
     );
   }
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users`, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 
   getUser(id: number | null): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/${id}`, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 
   createUser(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, data, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
-
-  // updatePage(id: number, data: any): Observable<UpdatePageResponse> {
-  //   return this.http.put<UpdatePageResponse>(
-  //     `${this.apiUrl}/paginas/${id}`,
-  //     data,
-  //     {
-  //       headers: this.headers,
-  //     }
-  //   );
-  // }
 }

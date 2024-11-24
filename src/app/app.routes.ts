@@ -3,6 +3,7 @@ import { EntidadComponent } from './modules/entidad/entidad.component';
 import { LoginComponent } from './auth/login/login.component';
 import { LayoutLoginComponent } from './auth/layout/layout.component';
 import { AuthGuard } from './auth.guard';
+import { IsSignedInGuard } from './IsSignedInGuard';
 import { AdministracionComponent } from './modules/administracion/administracion.component';
 
 export let routes: Routes = [
@@ -14,6 +15,7 @@ export let routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [IsSignedInGuard],
   },
   {
     path: '',

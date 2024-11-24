@@ -38,16 +38,15 @@ export class AuthService {
   }
 
   token(): string | null {
-    const token = localStorage.getItem('token'); // Check if token exists in localStorage
-    return token;
+    return localStorage.getItem('token') || ''; // Check if token exists in localStorage
   }
 
   performLogout(): void {
     this.logout().subscribe({
       next: () => {
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('token');
         this.router.navigate(['/login']);
+        localStorage.removeItem('token');
+        localStorage.removeItem('isAuthenticated');
       },
       error: (err) => console.error('Logout failed', err),
     });

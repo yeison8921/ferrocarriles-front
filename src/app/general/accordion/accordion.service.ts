@@ -16,12 +16,14 @@ interface UpdatePageResponse {
 })
 export class AccordionService {
   private apiUrl = environment.apiUrl;
-  private headers: HttpHeaders;
 
-  constructor(private http: HttpClient, public authService: AuthService) {
-    this.headers = new HttpHeaders({
+  constructor(private http: HttpClient, public authService: AuthService) {}
+
+  private getHeaders() {
+    return new HttpHeaders({
       'Content-Type': 'application/json',
-    }).set('Authorization', `Bearer ${authService.token()}`);
+      Authorization: `Bearer ${this.authService.token()}`,
+    });
   }
 
   addMultipleCategories(data: any): Observable<any> {
@@ -29,7 +31,7 @@ export class AccordionService {
       `${this.apiUrl}/categorias/addMultipleCategories`,
       data,
       {
-        headers: this.headers,
+        headers: this.getHeaders(),
       }
     );
   }
@@ -39,19 +41,19 @@ export class AccordionService {
       `${this.apiUrl}/categorias/${categoryId}`,
       { nombre: categoryName },
       {
-        headers: this.headers,
+        headers: this.getHeaders(),
       }
     );
   }
 
   deleteCategory(categoryId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/categorias/${categoryId}`, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 
   addMultipleDocuments(data: any): Observable<any> {
-    const headers = this.headers.delete('Content-Type');
+    const headers = this.getHeaders().delete('Content-Type');
     return this.http.post(
       `${this.apiUrl}/documentos/addMultipleDocuments`,
       data,
@@ -63,7 +65,7 @@ export class AccordionService {
 
   deleteDocument(documentId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/documentos/${documentId}`, {
-      headers: this.headers,
+      headers: this.getHeaders(),
     });
   }
 }
