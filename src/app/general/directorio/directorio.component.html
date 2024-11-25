@@ -1,0 +1,265 @@
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="modalFuncionarios"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          {{ isCreate ? "Crear" : "Editar" }} funcionario
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="col-lg-12 mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input
+              id="nombre"
+              type="text"
+              class="form-control"
+              formControlName="nombre"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('nombre')?.invalid && form.get('nombre')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched"
+            >
+              El nombre es requerido
+            </div>
+          </div>
+          <div class="col-lg-12 mb-3">
+            <label for="cargo" class="form-label">Cargo</label>
+            <input
+              id="cargo"
+              type="text"
+              class="form-control"
+              formControlName="cargo"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('cargo')?.invalid && form.get('cargo')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="form.get('cargo')?.invalid && form.get('cargo')?.touched"
+            >
+              El cargo es requerido
+            </div>
+          </div>
+          <div class="col-lg-12 mb-3">
+            <label for="correo" class="form-label">Correo</label>
+            <input
+              id="correo"
+              type="text"
+              class="form-control"
+              formControlName="correo"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('correo')?.invalid && form.get('correo')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="form.get('correo')?.invalid && form.get('correo')?.touched"
+            >
+              El correo es requerido
+            </div>
+            <div
+              class="invalid-feedback"
+              *ngIf="form.get('correo')?.errors?.['correo'] && form.get('correo')?.touched"
+            >
+              Ingresa un correo valido
+            </div>
+          </div>
+          <div class="col-lg-12 mb-3">
+            <label for="correo" class="form-label">Ubicación</label>
+            <input
+              id="ubicacion"
+              type="text"
+              class="form-control"
+              formControlName="ubicacion"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('ubicacion')?.invalid &&
+                  form.get('ubicacion')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                form.get('ubicacion')?.invalid && form.get('ubicacion')?.touched
+              "
+            >
+              La ubicación es requerido
+            </div>
+          </div>
+          <div class="col-lg-12 mb-3">
+            <label for="correo" class="form-label">Ciudad</label>
+            <input
+              id="ciudad"
+              type="text"
+              class="form-control"
+              formControlName="ciudad"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('ciudad')?.invalid && form.get('ciudad')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="form.get('ciudad')?.invalid && form.get('ciudad')?.touched"
+            >
+              La ciudad es requerida
+            </div>
+          </div>
+          <div class="col-lg-12 mb-3">
+            <label for="correo" class="form-label">Teléfono</label>
+            <input
+              id="telefono"
+              type="text"
+              class="form-control"
+              formControlName="telefono"
+              [ngClass]="{
+                'is-invalid':
+                  form.get('telefono')?.invalid && form.get('telefono')?.touched
+              }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngIf="
+                form.get('telefono')?.invalid && form.get('telefono')?.touched
+              "
+            >
+              La teléfono es requerido
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cerrar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="form.invalid"
+          >
+            Guardar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div ngbAccordion>
+  <div ngbAccordionItem [collapsed]="true">
+    <h2 ngbAccordionHeader>
+      <button ngbAccordionButton>{{ area.nombre }}</button>
+    </h2>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div
+          class="text-end mb-3"
+          [ngClass]="{
+            'd-none': !isAdmin
+          }"
+        >
+          <button
+            class="btn btn-info me-1"
+            (click)="
+              isCreate = true;
+              areaId = area.id;
+              resetForm();
+              openModalFuncionarios()
+            "
+          >
+            <i class="fas fa-plus"></i> Agregar funcionario
+          </button>
+          <button
+            class="btn btn-warning me-1"
+            (click)="changeAreaName(area.nombre, area.id)"
+          >
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="deleteArea(area.nombre, area.id)"
+          >
+            <i class="fas fa-trash"></i> Eliminar
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>NOMBRE</th>
+                <th>CARGO</th>
+                <th>CORREO ELECTRÓNICO</th>
+                <th>UBICACIÓN / SEDE</th>
+                <th>CIUDAD</th>
+                <th>TELÉFONO</th>
+                <th
+                  width="100px"
+                  [ngClass]="{
+                    'd-none': !isAdmin
+                  }"
+                >
+                  ACCIONES
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let funcionario of area.funcionarios; let i = index">
+                <td>{{ funcionario?.nombre }}</td>
+                <td>{{ funcionario?.cargo }}</td>
+                <td>{{ funcionario?.correo }}</td>
+                <td>{{ funcionario?.ubicacion }}</td>
+                <td>{{ funcionario?.ciudad }}</td>
+                <td>{{ funcionario?.telefono }}</td>
+                <td *ngIf="funcionario && isAdmin">
+                  <button
+                    class="btn btn-warning me-1"
+                    (click)="
+                      isCreate = false;
+                      funcionarioId = funcionario?.id;
+                      getFuncionario();
+                      openModalFuncionarios()
+                    "
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    (click)="
+                      funcionarioId = funcionario?.id;
+                      deleteFuncionario(funcionario?.nombre, funcionario?.id)
+                    "
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

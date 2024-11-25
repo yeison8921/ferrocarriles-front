@@ -35,6 +35,7 @@ export class UsuarioService {
       }
     );
   }
+
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users`, {
       headers: this.getHeaders(),
@@ -43,6 +44,18 @@ export class UsuarioService {
 
   getUser(id: number | null): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/${id}`, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  updateUser(userId: number | null, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/users/${userId}`, data, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  deleteUser(userId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/users/${userId}`, {
       headers: this.getHeaders(),
     });
   }

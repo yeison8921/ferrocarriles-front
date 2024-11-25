@@ -49,4 +49,10 @@ export class PaginaService {
       }
     );
   }
+
+  addArea(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/areas`, data, {
+      headers: this.headers,
+    });
+  }
 }

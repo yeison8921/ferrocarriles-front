@@ -7,13 +7,14 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgClass } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PaginaService } from './pagina.service';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccordionComponent } from '../../../general/accordion/accordion.component';
+import { DirectorioComponent } from '../../../general/directorio/directorio.component';
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -51,6 +52,7 @@ export interface Category {
   imports: [
     NgbAccordionModule,
     AccordionComponent,
+    DirectorioComponent,
     MatFormFieldModule,
     MatSelectModule,
     FormsModule,
@@ -58,6 +60,7 @@ export interface Category {
     CKEditorModule,
     NgFor,
     NgIf,
+    NgClass,
   ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './pagina.component.html',
@@ -65,6 +68,7 @@ export interface Category {
 })
 export class PaginaComponent {
   form: FormGroup;
+  formArea: FormGroup;
 
   constructor(
     private paginaService: PaginaService,
@@ -75,6 +79,15 @@ export class PaginaComponent {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
     });
+
+    this.formArea = this.fb.group({
+      nombre: ['', Validators.required],
+      directorio_id: [''],
+    });
+  }
+
+  resetFormArea() {
+    this.formArea.reset();
   }
 
   ngOnInit(): void {
@@ -127,6 +140,8 @@ export class PaginaComponent {
   sectionId: number = 0;
   categoriasForm: any[] = [];
   sections: any[] = [];
+  areas: any[] = [];
+  directorioId: number = 0;
 
   categorySelected: Category = {
     name: '',
@@ -221,6 +236,10 @@ export class PaginaComponent {
         this.sections = data.secciones;
         this.sectionId = this.sections[0]['id'];
       }
+      if (this.page == 13) {
+        this.directorioId = data.directorios[0].id;
+        this.areas = data.directorios[0].areas;
+      }
       this.closeLoading();
     });
   }
@@ -236,7 +255,7 @@ export class PaginaComponent {
     });
   }
 
-  onSubmitCtergorias() {
+  onSubmitCatergorias() {
     this.showLoading();
     this.accordionService
       .addMultipleCategories(this.form.value)
@@ -272,6 +291,18 @@ export class PaginaComponent {
     modal?.hide();
   }
 
+  openModalArea() {
+    const modalElement = document.getElementById('modalArea');
+    const modalInstance = new Modal(modalElement!);
+    modalInstance.show();
+  }
+
+  closeModalArea(): void {
+    const modalElement = document.getElementById('modalArea');
+    const modal = Modal.getInstance(modalElement!);
+    modal?.hide();
+  }
+
   setCurrentCategory(categoryName: string, categoryId: number) {
     this.categorySelected.name = categoryName;
     this.categorySelected.id = categoryId;
@@ -280,5 +311,17 @@ export class PaginaComponent {
   updateCurrentCategory(categoryName: string, categoryId: number) {
     this.categorySelected.name = categoryName;
     this.categorySelected.id = categoryId;
+  }
+
+  onSubmitArea() {
+    this.formArea.patchValue({ directorio_id: this.directorioId });
+
+    this.paginaService.addArea(this.formArea.value).subscribe((data) => {
+      this.showMessage('success', data.message);
+      setTimeout(() => {
+        this.closeModalArea();
+        this.onPageSelectionChange();
+      }, 1000);
+    });
   }
 }

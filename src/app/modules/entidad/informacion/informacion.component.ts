@@ -4,6 +4,7 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { InformacionService } from './informacion.service';
 import { Router } from '@angular/router';
 import { AccordionComponent } from '../../../general/accordion/accordion.component';
+import { DirectorioComponent } from '../../../general/directorio/directorio.component';
 
 interface SectionData {
   'informacion-general': number;
@@ -24,7 +25,13 @@ interface SectionData {
 @Component({
   selector: 'app-informacion',
   standalone: true,
-  imports: [NgbAccordionModule, NgFor, NgIf, AccordionComponent],
+  imports: [
+    NgbAccordionModule,
+    NgFor,
+    NgIf,
+    AccordionComponent,
+    DirectorioComponent,
+  ],
   templateUrl: './informacion.component.html',
   styleUrl: './informacion.component.css',
 })
@@ -66,11 +73,11 @@ export class InformacionComponent implements OnInit {
       next: (data) => {
         this.title = data.nombre;
         this.content = data.contenido;
-        if (data.directorios.length != 0) {
-          this.areas = data.directorios[0].areas;
-        }
         if (this.sectionId >= 7 || this.sectionId <= 12) {
           this.sections = data.secciones;
+        }
+        if (this.sectionId == 13) {
+          this.areas = data.directorios[0].areas;
         }
       },
       error: (error) => {
@@ -81,20 +88,5 @@ export class InformacionComponent implements OnInit {
         }
       },
     });
-
-    // this.sectionId = parseInt(this.json[this.section].toString(), 10);
-
-    // if (this.sectionId <= 6) {
-    //   this.informacionService
-    //     .getItems(this.json[this.section])
-    //     .subscribe((data) => {
-    //       this.title = data.nombre;
-    //       this.content = data.contenido;
-    //     });
-    // } else {
-    //   this.informacionService.getNormatividades(1).subscribe((data) => {
-    //     console.log(data);
-    //   });
-    // }
   }
 }

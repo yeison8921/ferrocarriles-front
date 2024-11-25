@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { UsuarioService } from './usuario.service';
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -42,21 +42,18 @@ interface User {
   templateUrl: './usuario.component.html',
   styleUrl: './usuario.component.css',
 })
-export class UsuarioComponent implements AfterViewInit {
-  constructor(
-    private usuarioService: UsuarioService,
-    private fb: FormBuilder,
-    private cdRef: ChangeDetectorRef
-  ) {
+export class UsuarioComponent {
+  constructor(private usuarioService: UsuarioService, private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', Validators.required],
-      email: ['', Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       rol_id: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
   form: FormGroup;
 
+  isCreate: boolean = true; //true => create, false => edit
   users: any[] = [];
   user: User = {
     name: '',
@@ -67,15 +64,6 @@ export class UsuarioComponent implements AfterViewInit {
   userId: number | null = null;
   roles: Rol[] = [];
   rol: number = 0;
-
-  ngAfterViewInit(): void {
-    // $('#example').DataTable({
-    //   paging: true,
-    //   searching: true,
-    //   ordering: true,
-    //   info: true,
-    // });
-  }
 
   openModal() {
     const modalElement = document.getElementById('modalUsers');
@@ -96,40 +84,100 @@ export class UsuarioComponent implements AfterViewInit {
     this.getUsers();
   }
 
+  setPasswordValidator() {
+    this.form.reset();
+    const passwordControl = this.form.get('password');
+    if (this.isCreate) {
+      passwordControl?.setValidators([
+        Validators.required,
+        Validators.minLength(8),
+      ]);
+    } else {
+      passwordControl?.clearValidators();
+    }
+    passwordControl?.updateValueAndValidity();
+  }
+
   getUsers() {
     this.usuarioService.getUsers().subscribe((data) => {
-      if ($.fn.DataTable.isDataTable('#usersTable')) {
-        $('#usersTable').DataTable().clear().destroy();
-      }
       this.users = data;
-      setTimeout(() => {
-        $('#usersTable').DataTable();
-      }, 1000);
+
+      // if ($.fn.dataTable.isDataTable('#usersTable')) {
+      //   $('#usersTable').DataTable().destroy();
+      // }
 
       // setTimeout(() => {
-      //   this.cdRef.detectChanges();
-      // }, 1000);
-      // setTimeout(() => {
+      //   $('#usersTable').DataTable();
       // }, 1000);
     });
   }
 
   getUserById() {
     this.usuarioService.getUser(this.userId).subscribe((data) => {
-      this.user = data;
+      this.form.patchValue({
+        name: data.name,
+        email: data.email,
+        rol_id: data.rol_id,
+      });
+    });
+  }
+
+  deleteUser(name: string, userId: number) {
+    Swal.fire({
+      title: 'Atención',
+      html: `¿Está seguro que quiere eliminar el usuario: <b>${name}</b>?`,
+      icon: 'warning',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      showDenyButton: true,
+      confirmButtonText: 'Sí, Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.showLoading();
+
+        this.usuarioService.deleteUser(userId).subscribe((data) => {
+          this.showMessage('success', data.message);
+          setTimeout(() => {
+            this.getUsers();
+          }, 1000);
+        });
+      }
     });
   }
 
   onSubmit() {
     this.showMessage();
-    this.usuarioService.createUser(this.form.value).subscribe((data) => {
-      this.showMessage('success', data.message);
-      this.closeModal();
+    if (this.isCreate) {
+      this.usuarioService.createUser(this.form.value).subscribe({
+        next: (data) => {
+          this.closeModal();
+          this.showMessage('success', data.message);
+        },
+        error: (error) => {
+          if (
+            error.error.errors.email[0] == 'The email has already been taken.'
+          ) {
+            this.showMessage(
+              'warning',
+              'Atención',
+              'El correo ya se encuentra registrado en el sistema, por favor compruebe la informacion'
+            );
+          }
+        },
+      });
+    } else {
+      this.usuarioService
+        .updateUser(this.userId, this.form.value)
+        .subscribe((data) => {
+          this.closeModal();
+          this.showMessage('success', data.message);
+        });
+    }
 
+    setTimeout(() => {
       this.getUsers();
-      // setTimeout(() => {
-      // }, 1000);
-    });
+    }, 1000);
   }
 
   showMessage(

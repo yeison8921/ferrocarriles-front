@@ -1,33 +1,83 @@
-<div
-  class="row"
-  style="background-image: url('/assets/img/login/login.jpg'); height: 100vh"
+<section
+  class="myform-area d-flex align-items-center justify-content-center vh-100 justify-content-center"
+  style="
+    background-image: url('/assets/img/login/login.jpg');
+    background-size: 100% 100%;
+  "
 >
-  <div class="col-lg-6 offset-lg-3 justify-content-center align-self-center">
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Usuario</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          aria-describedby="emailHelp"
-          [(ngModel)]="login.email"
-        />
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="form-area login-form row justify-content-center">
+          <div class="form-input">
+            <img
+              class="img-fluid mx-auto d-block mb-3"
+              src="assets/img/logos/logo_fps.png"
+              width="80%"
+            />
+            <h3 class="text-center">Iniciar Sesión</h3>
+            <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+              <div class="form-group">
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  [(ngModel)]="login.email"
+                  #emailInput="ngModel"
+                  required
+                />
+                <label>Correo</label>
+                <div
+                  *ngIf="emailInput.invalid && emailInput.touched"
+                  class="text-danger"
+                >
+                  Ingrese el correo
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  #passwordInput="ngModel"
+                  [(ngModel)]="login.password"
+                  required
+                />
+                <label>Contraseña</label>
+                <div
+                  *ngIf="passwordInput.invalid && passwordInput.touched"
+                  class="text-danger"
+                >
+                  Ingrese la contraseña
+                </div>
+              </div>
+              <div
+                class="alert alert-danger mt-3 text-center"
+                role="alert"
+                [ngClass]="{
+                  'd-none': !loginError
+                }"
+              >
+                Usuario y/o contraseña incorrecta
+              </div>
+              <div class="myform-button">
+                <button
+                  type="submit"
+                  class="myform-btn"
+                  [disabled]="loginForm.invalid"
+                >
+                  Ingresar
+                </button>
+              </div>
+              <div class="text-center mt-3">
+                <a href="#" target="_blank" rel="noopener noreferrer"
+                  >¿Has olvidado la contraseña?</a
+                >
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-        <input
-          type="password"
-          class="form-control"
-          name="password"
-          id="password"
-          [(ngModel)]="login.password"
-        />
-      </div>
-      <button type="button" class="btn btn-primary" (click)="onLogin()">
-        Ingresar
-      </button>
-    </form>
+    </div>
   </div>
-</div>
+</section>

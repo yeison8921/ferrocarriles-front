@@ -10,12 +10,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="modalTitleCategories"></h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
       </div>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="modal-body" id="modalBodyCategories">
@@ -104,12 +98,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="modalTitleFiles"></h1>
-        <button
-          type="button"
-          class="btn-close"
-          (click)="closeModalDocuments()"
-          aria-label="Close"
-        ></button>
       </div>
       <div class="modal-body" id="modalBodyDocuments">
         <ngx-dropzone
