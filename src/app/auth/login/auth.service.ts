@@ -41,6 +41,15 @@ export class AuthService {
     return localStorage.getItem('token') || ''; // Check if token exists in localStorage
   }
 
+  getRolByToken(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.get(`${this.apiUrl}/users/getUserByToken`, { headers });
+  }
+
   performLogout(): void {
     this.logout().subscribe({
       next: () => {

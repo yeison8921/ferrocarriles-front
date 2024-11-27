@@ -6,6 +6,7 @@ import {
 import { NgClass, NgFor, NgIf, Location } from '@angular/common';
 import { Menu } from '../../../interfaces/header';
 import { SearchComponent } from '../search/search.component';
+import { AuthService } from '../../../auth/login/auth.service';
 
 @Component({
   selector: 'app-menu',
@@ -23,123 +24,142 @@ import { SearchComponent } from '../search/search.component';
 })
 export class MenuComponent {
   isCollapsed = true;
-  menu: Menu[];
+  menu: Menu[] = [];
+  role: number = 0;
 
-  constructor(private location: Location) {
-    this.menu = [
-      {
-        id: 1,
-        nombre: 'Entidad',
-        url: '/#',
-        active: false,
-        submenu: [
+  ngOnInit() {
+    this.authService.getRolByToken().subscribe({
+      next: (data) => {
+        this.role = data.rol;
+        this.menu = [
           {
             id: 1,
-            nombre: 'Informacion',
-            url: '/entidad/informacion-general',
+            nombre: 'Entidad',
+            url: '/#',
             active: false,
+            submenu: [
+              {
+                id: 1,
+                nombre: 'Informacion',
+                url: '/entidad/informacion-general',
+                active: false,
+              },
+              {
+                id: 2,
+                nombre: 'Institucionalidad',
+                url: '/entidad/institucionalidad',
+                active: false,
+              },
+              {
+                id: 3,
+                nombre: 'Organigrama',
+                url: '/entidad/organigrama',
+                active: false,
+              },
+              {
+                id: 4,
+                nombre: 'Política del Sistema Integrado de Gestión',
+                url: '/entidad/politica-sistema-integrado-gestion',
+                active: false,
+              },
+              {
+                id: 5,
+                nombre: 'Objetivos estratégicos',
+                url: '/entidad/objetivos-estrategicos',
+                active: false,
+              },
+              {
+                id: 6,
+                nombre: 'Funciones',
+                url: '/entidad/funciones',
+                active: false,
+              },
+              {
+                id: 7,
+                nombre: 'Resoluciones',
+                url: '/entidad/resoluciones',
+                active: false,
+              },
+              {
+                id: 8,
+                nombre: 'Decretos',
+                url: '/entidad/decretos',
+                active: false,
+              },
+              {
+                id: 9,
+                nombre: 'Leyes',
+                url: '/entidad/leyes',
+                active: false,
+              },
+              {
+                id: 10,
+                nombre: 'Anexos',
+                url: '/entidad/anexos',
+                active: false,
+              },
+            ],
           },
           {
             id: 2,
-            nombre: 'Institucionalidad',
-            url: '/entidad/institucionalidad',
+            nombre: 'Recursos',
+            url: '/entidad/recursos',
             active: false,
+            submenu: [],
           },
           {
             id: 3,
-            nombre: 'Organigrama',
-            url: '/entidad/organigrama',
+            nombre: 'Sistema integrado de gestión',
+            url: '/entidad/sistema-integrado-gestion',
             active: false,
+            submenu: [],
           },
           {
             id: 4,
-            nombre: 'Política del Sistema Integrado de Gestión',
-            url: '/entidad/politica-sistema-integrado-gestion',
+            nombre: 'Directorio telefónico',
+            url: '/entidad/directorio-telefonico',
             active: false,
+            submenu: [],
           },
           {
             id: 5,
-            nombre: 'Objetivos estratégicos',
-            url: '/entidad/objetivos-estrategicos',
+            nombre: 'Administración',
+            url: '#',
             active: false,
+            submenu: [
+              {
+                id: 1,
+                nombre: 'Usuarios',
+                url: '/administracion/usuarios',
+                active: false,
+              },
+              {
+                id: 2,
+                nombre: 'Páginas',
+                url: '/administracion/paginas',
+                active: false,
+              },
+            ],
           },
-          {
-            id: 6,
-            nombre: 'Funciones',
-            url: '/entidad/funciones',
-            active: false,
-          },
-          {
-            id: 7,
-            nombre: 'Resoluciones',
-            url: '/entidad/resoluciones',
-            active: false,
-          },
-          {
-            id: 8,
-            nombre: 'Decretos',
-            url: '/entidad/decretos',
-            active: false,
-          },
-          {
-            id: 9,
-            nombre: 'Leyes',
-            url: '/entidad/leyes',
-            active: false,
-          },
-          {
-            id: 10,
-            nombre: 'Anexos',
-            url: '/entidad/anexos',
-            active: false,
-          },
-        ],
+        ];
+
+        if (this.role !== 1) {
+          this.menu = this.menu.filter(
+            (item) => item.nombre !== 'Administración'
+          );
+        }
+
+        let path = this.location.path().split('/');
+        this.activarMenu(path[path.length - 1]);
       },
-      {
-        id: 2,
-        nombre: 'Recursos',
-        url: '/entidad/recursos',
-        active: false,
-        submenu: [],
+      error: (error) => {
+        console.error('Error fetching user data:', error);
       },
-      {
-        id: 3,
-        nombre: 'Sistema integrado de gestión',
-        url: '/entidad/sistema-integrado-gestion',
-        active: false,
-        submenu: [],
-      },
-      {
-        id: 4,
-        nombre: 'Directorio telefónico',
-        url: '/entidad/directorio-telefonico',
-        active: false,
-        submenu: [],
-      },
-      {
-        id: 5,
-        nombre: 'Administración',
-        url: '#',
-        active: false,
-        submenu: [
-          {
-            id: 1,
-            nombre: 'Usuarios',
-            url: '/administracion/usuarios',
-            active: false,
-          },
-          {
-            id: 2,
-            nombre: 'Páginas',
-            url: '/administracion/paginas',
-            active: false,
-          },
-        ],
-      },
-    ];
-    let path = this.location.path().split('/');
-    this.activarMenu(path[path.length - 1]);
+    });
   }
+
+  constructor(private location: Location, private authService: AuthService) {}
+
   activarMenu(numberPath: string) {
     this.menu.forEach((item) => {
       item.active = false;

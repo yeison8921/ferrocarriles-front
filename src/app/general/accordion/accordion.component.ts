@@ -54,6 +54,16 @@ export class AccordionComponent {
     return this.form.get('elements') as FormArray;
   }
 
+  iconsJson: any = {
+    pdf: 'fa-file-pdf',
+    xls: 'fa-file-excel',
+    xlsx: 'fa-file-excel',
+    doc: 'fa-file-word',
+    docx: 'fa-file-word',
+    ppt: 'fa-file-powerpoint',
+    pptx: 'fa-file-powerpoint',
+  };
+
   categorySelected: Category = {
     name: '',
     id: 0,

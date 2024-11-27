@@ -83,7 +83,6 @@ a:hover {
 
 .myform-area .form-area .form-input input,
 .myform-area .form-area .form-input textarea {
-  text-transform: capitalize;
   width: 100%;
   box-sizing: border-box;
   outline: none;
@@ -96,7 +95,6 @@ a:hover {
 }
 .myform-area .form-area .form-input form .form-group label {
   position: absolute;
-  text-transform: capitalize;
   top: 20px;
   left: 0;
   pointer-events: none;

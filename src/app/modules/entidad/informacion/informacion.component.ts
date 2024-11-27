@@ -5,6 +5,7 @@ import { InformacionService } from './informacion.service';
 import { Router } from '@angular/router';
 import { AccordionComponent } from '../../../general/accordion/accordion.component';
 import { DirectorioComponent } from '../../../general/directorio/directorio.component';
+import Swal from 'sweetalert2';
 
 interface SectionData {
   'informacion-general': number;
@@ -65,6 +66,7 @@ export class InformacionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.showLoading();
     this.section = this.router.url.split('/')[2] as keyof SectionData;
 
     this.sectionId = parseInt(this.json[this.section].toString(), 10);
@@ -79,14 +81,32 @@ export class InformacionComponent implements OnInit {
         if (this.sectionId == 13) {
           this.areas = data.directorios[0].areas;
         }
+        this.closeLoading();
       },
       error: (error) => {
         if (error.status === 401) {
           localStorage.removeItem('token');
           localStorage.removeItem('isAuthenticated');
           this.router.navigate(['/login']);
+          this.closeLoading();
         }
       },
     });
+  }
+
+  showLoading() {
+    Swal.fire({
+      text: 'Espere un poco por favor.',
+      imageUrl: 'assets/loading.gif',
+      imageWidth: 70,
+      imageHeight: 70,
+      showConfirmButton: false,
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+    });
+  }
+
+  closeLoading() {
+    Swal.close();
   }
 }

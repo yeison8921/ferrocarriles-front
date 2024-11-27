@@ -199,8 +199,8 @@
           </button>
         </div>
 
-        <table class="table">
-          <thead>
+        <table class="table mt-3">
+          <!-- <thead>
             <tr>
               <th>Documentos</th>
               <th
@@ -211,13 +211,23 @@
                 Acciones
               </th>
             </tr>
-          </thead>
+          </thead> -->
           <tbody>
             <tr *ngFor="let documento of category.documentos">
               <td *ngIf="documento" width="80%">
-                <a [href]="documento.url" target="_blank">{{
-                  documento.nombre
-                }}</a>
+                <div>
+                  <i
+                    class="fas"
+                    [ngClass]="
+                      iconsJson[
+                        documento.nombre.split('.').pop().toLowerCase()
+                      ] ?? 'fa-file'
+                    "
+                  ></i>
+                  <a [href]="documento.url" target="_blank">{{
+                    documento.nombre
+                  }}</a>
+                </div>
               </td>
               <td
                 *ngIf="documento"

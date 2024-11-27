@@ -12,6 +12,8 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/login/auth.service';
+import { Router } from '@angular/router';
 
 declare var $: any; // Import jQuery globally
 
@@ -43,7 +45,12 @@ interface User {
   styleUrl: './usuario.component.css',
 })
 export class UsuarioComponent {
-  constructor(private usuarioService: UsuarioService, private fb: FormBuilder) {
+  constructor(
+    private usuarioService: UsuarioService,
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -78,6 +85,11 @@ export class UsuarioComponent {
   }
 
   ngOnInit(): void {
+    this.authService.getRolByToken().subscribe((data) => {
+      if (data.rol != 1) {
+        this.router.navigate(['entidad/informacion-general']);
+      }
+    });
     this.usuarioService.getRoles().subscribe((data) => {
       this.roles = data.data;
     });

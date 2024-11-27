@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../enviroments/environment';
 import { AuthService } from '../../auth/login/auth.service';
 
-const token = localStorage.getItem('token');
-
 interface UpdatePageResponse {
   status: boolean;
   message: string;

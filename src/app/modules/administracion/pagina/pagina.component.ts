@@ -36,6 +36,7 @@ import {
   AutoLink,
 } from 'ckeditor5';
 import { AccordionService } from '../../../general/accordion/accordion.service';
+import { AuthService } from '../../../auth/login/auth.service';
 
 interface Page {
   value: number;
@@ -74,7 +75,8 @@ export class PaginaComponent {
     private paginaService: PaginaService,
     private fb: FormBuilder,
     private accordionService: AccordionService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
@@ -91,9 +93,14 @@ export class PaginaComponent {
   }
 
   ngOnInit(): void {
+    this.authService.getRolByToken().subscribe((data) => {
+      if (data.rol != 1) {
+        this.router.navigate(['entidad/informacion-general']);
+      }
+    });
+
     this.paginaService.getSelectPages().subscribe({
       next: (data) => {
-        console.log(data);
         this.pages = data.data;
       },
       error: (error) => {
@@ -101,6 +108,7 @@ export class PaginaComponent {
           localStorage.removeItem('token');
           localStorage.removeItem('isAuthenticated');
           this.router.navigate(['/login']);
+          this.closeLoading();
         }
       },
     });
