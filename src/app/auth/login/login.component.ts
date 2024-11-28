@@ -51,7 +51,8 @@ export class LoginComponent {
           this.closeLoading();
           localStorage.setItem('isAuthenticated', 'true');
           localStorage.setItem('token', data.token);
-          this.router.navigate(['entidad/informacion-general']);
+          localStorage.setItem('name', data.nombre);
+          this.router.navigate(['index']);
         } else {
           this.closeLoading();
           this.loginError = true;

@@ -5,6 +5,8 @@ import { LayoutLoginComponent } from './auth/layout/layout.component';
 import { AuthGuard } from './auth.guard';
 import { IsSignedInGuard } from './IsSignedInGuard';
 import { AdministracionComponent } from './modules/administracion/administracion.component';
+import { ChangePasswordComponent } from './general/change-password/change-password.component';
+import { HomeComponent } from './home/home.component';
 
 export let routes: Routes = [
   {
@@ -18,8 +20,14 @@ export let routes: Routes = [
     canActivate: [IsSignedInGuard],
   },
   {
-    path: '',
-    component: LayoutLoginComponent,
+    path: 'index',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'entidad',

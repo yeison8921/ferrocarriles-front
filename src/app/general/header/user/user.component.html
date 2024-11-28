@@ -11,7 +11,12 @@
           <i class="fa-solid fa-user"></i>
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Cambiar contraseña</button>
+          <button ngbDropdownItem [disabled]="true">
+            {{ this.name }}
+          </button>
+          <button ngbDropdownItem (click)="navigateChangePassword()">
+            Cambiar contraseña
+          </button>
           <button ngbDropdownItem (click)="onLogout()">Cerrar sesión</button>
         </div>
       </div>

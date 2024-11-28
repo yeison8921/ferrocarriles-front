@@ -10,7 +10,7 @@ export class IsSignedInGuard implements CanActivate {
   canActivate(): boolean {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
     if (isAuthenticated) {
-      this.router.navigate(['/entidad/informacion-general']); // or home
+      this.router.navigate(['/index']); // or home
       return false;
     }
     return true;

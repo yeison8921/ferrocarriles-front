@@ -33,12 +33,16 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    const isAuthenticated = localStorage.getItem('isAuthenticated'); // Check if token exists in localStorage
+    const isAuthenticated = localStorage.getItem('isAuthenticated');
     return !!isAuthenticated;
   }
 
   token(): string | null {
-    return localStorage.getItem('token') || ''; // Check if token exists in localStorage
+    return localStorage.getItem('token') || '';
+  }
+
+  name(): string | null {
+    return localStorage.getItem('name') || '';
   }
 
   getRolByToken(): Observable<any> {
@@ -50,12 +54,43 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/users/getUserByToken`, { headers });
   }
 
+  checkCurrentPassword(password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.post(
+      `${this.apiUrl}/users/checkCurrentPassword`,
+      { password: password },
+      {
+        headers,
+      }
+    );
+  }
+
+  updatePassword(password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.post(
+      `${this.apiUrl}/users/updatePassword`,
+      { password: password },
+      {
+        headers,
+      }
+    );
+  }
+
   performLogout(): void {
     this.logout().subscribe({
       next: () => {
         this.router.navigate(['/login']);
         localStorage.removeItem('token');
         localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('name');
       },
       error: (err) => console.error('Logout failed', err),
     });
