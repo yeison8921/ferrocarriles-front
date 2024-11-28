@@ -9,11 +9,29 @@
         <app-accordion [category]="categoria" [isAdmin]="false"></app-accordion>
       </div>
     </div>
-  </div>
 
-  <div *ngIf="sectionId == 13">
-    <div *ngFor="let area of areas; let i = index">
-      <app-directorio [area]="area" [isAdmin]="false"></app-directorio>
+    <div class="row mt-5" *ngIf="11 && sections.length">
+      <h1 class="titulo-h1">ACCESOS</h1>
+
+      <ng-container *ngFor="let button of buttons; let i = index">
+        <div [ngClass]="button.class">
+          <a
+            [href]="button.href"
+            target="_blank"
+            type="button"
+            class="btn-comun mb-4"
+          >
+            <i class="fa" [ngClass]="button.icon"></i>
+            {{ button.text }}
+          </a>
+        </div>
+      </ng-container>
+    </div>
+
+    <div *ngIf="sectionId == 13">
+      <div *ngFor="let area of areas; let i = index">
+        <app-directorio [area]="area" [isAdmin]="false"></app-directorio>
+      </div>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgClass } from '@angular/common';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { InformacionService } from './informacion.service';
 import { Router } from '@angular/router';
@@ -32,6 +32,7 @@ interface SectionData {
     NgIf,
     AccordionComponent,
     DirectorioComponent,
+    NgClass,
   ],
   templateUrl: './informacion.component.html',
   styleUrl: './informacion.component.css',
@@ -59,6 +60,69 @@ export class InformacionComponent implements OnInit {
     'sistema-integrado-gestion': 12,
     'directorio-telefonico': 13,
   };
+
+  buttons: any[] = [
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/plantilla.asp?id=query_medico.asp',
+      icon: 'fa-users',
+      text: 'Consulta afiliados',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/plantilla.asp?id=query_tramite.asp',
+      icon: 'fa-cogs',
+      text: 'Consulta de trámites',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/plantilla.asp?id=query_certificado.asp',
+      icon: 'fa-hand-holding-medical',
+      text: 'Certificado de salud',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/plantilla.asp?id=Estadistica.asp',
+      icon: 'fa-chart-simple',
+      text: 'Estadísticas',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'https://www.cnsc.gov.co/index.php/convocatorias/en-desarrollo"',
+      icon: 'fa-bullhorn',
+      text: 'Convocatoria',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/boletindepagoempl.asp',
+      icon: 'fa-file-invoice',
+      text: 'Recibos de pago',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/boletindepago.asp',
+      icon: 'fa-file-waveform',
+      text: 'Recibos de pensión',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/certificado_dianformtemp.asp',
+      icon: 'fa-file-alt',
+      text: 'Certificado de ingresos y retenciones',
+    },
+    {
+      class: 'offset-lg-3 col-lg-3',
+      href: 'http://132.255.23.82//wwwroot/default1.asp',
+      icon: 'fa-users-line',
+      text: 'Proveedores',
+    },
+    {
+      class: 'col-lg-3',
+      href: 'http://132.255.23.82/CUENTAS2.HTML',
+      icon: 'fa-money-check-dollar',
+      text: 'Cuentas de cobro',
+    },
+  ];
 
   constructor(
     private informacionService: InformacionService,

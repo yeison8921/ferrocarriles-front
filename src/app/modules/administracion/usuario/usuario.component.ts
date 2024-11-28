@@ -87,7 +87,7 @@ export class UsuarioComponent {
   ngOnInit(): void {
     this.authService.getRolByToken().subscribe((data) => {
       if (data.rol != 1) {
-        this.router.navigate(['entidad/informacion-general']);
+        this.router.navigate(['index']);
       }
     });
     this.usuarioService.getRoles().subscribe((data) => {
