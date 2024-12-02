@@ -66,4 +66,14 @@ export class AccordionService {
       headers: this.getHeaders(),
     });
   }
+
+  downloadDocument(categoryId: string, filename: string): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/documentos/download/${categoryId}/${filename}`,
+      {
+        responseType: 'blob',
+        headers: this.getHeaders(),
+      }
+    );
+  }
 }

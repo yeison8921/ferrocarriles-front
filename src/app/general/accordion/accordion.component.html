@@ -224,10 +224,11 @@
                       ] ?? 'fa-file'
                     "
                   ></i>
-                  <a [href]="documento.url" target="_blank">{{
-                    documento.nombre
-                  }}</a>
-                  <!-- (click)="validateAndNavigate($event, documento.url)" -->
+                  <a
+                    href="#"
+                    (click)="downloadDocument($event, documento.url)"
+                    >{{ documento.nombre }}</a
+                  >
                 </div>
               </td>
               <td

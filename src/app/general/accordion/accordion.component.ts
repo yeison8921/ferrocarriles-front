@@ -12,7 +12,6 @@ import {
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AccordionService } from './accordion.service';
-// import { AuthService } from '../../auth/login/auth.service';
 
 export interface Category {
   name: string;
@@ -44,8 +43,7 @@ export class AccordionComponent {
   constructor(
     private fb: FormBuilder,
     private accordionService: AccordionService
-  ) // private authService: AuthService
-  {
+  ) {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
     });
@@ -305,6 +303,8 @@ export class AccordionComponent {
       return;
     }
 
+    this.showLoading();
+
     const hiddenInput = document.getElementById(
       'hiddenField'
     ) as HTMLInputElement;
@@ -325,19 +325,26 @@ export class AccordionComponent {
     });
   }
 
-  // validateAndNavigate(event: Event, url: string) {
-  //   event.preventDefault();
-
-  //   this.authService.getRolByToken().subscribe({
-  //     next: (data) => {
-  //       window.open(url, '_blank');
-  //     },
-  //     error: (error) => {
-  //       if (error.status === 401) {
-  //         localStorage.removeItem('token');
-  //         localStorage.removeItem('isAuthenticated');
-  //       }
-  //     },
-  //   });
-  // }
+  downloadDocument(event: Event, filepath: string) {
+    event.preventDefault();
+    let categoryId = filepath.split('/')[0];
+    let filename = filepath.split('/')[1];
+    this.accordionService.downloadDocument(categoryId, filename).subscribe({
+      next: (response: Blob) => {
+        const blobUrl = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.target = '_blank';
+        a.download = filename; // Customize filename if needed
+        a.click();
+        window.URL.revokeObjectURL(blobUrl);
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('isAuthenticated');
+        }
+      },
+    });
+  }
 }
