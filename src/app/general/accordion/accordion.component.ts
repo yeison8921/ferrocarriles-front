@@ -12,6 +12,7 @@ import {
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AccordionService } from './accordion.service';
+// import { AuthService } from '../../auth/login/auth.service';
 
 export interface Category {
   name: string;
@@ -43,7 +44,8 @@ export class AccordionComponent {
   constructor(
     private fb: FormBuilder,
     private accordionService: AccordionService
-  ) {
+  ) // private authService: AuthService
+  {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
     });
@@ -62,6 +64,9 @@ export class AccordionComponent {
     docx: 'fa-file-word',
     ppt: 'fa-file-powerpoint',
     pptx: 'fa-file-powerpoint',
+    png: 'fa-image',
+    jpg: 'fa-image',
+    jpeg: 'fa-image',
   };
 
   categorySelected: Category = {
@@ -319,4 +324,20 @@ export class AccordionComponent {
       }, 1000);
     });
   }
+
+  // validateAndNavigate(event: Event, url: string) {
+  //   event.preventDefault();
+
+  //   this.authService.getRolByToken().subscribe({
+  //     next: (data) => {
+  //       window.open(url, '_blank');
+  //     },
+  //     error: (error) => {
+  //       if (error.status === 401) {
+  //         localStorage.removeItem('token');
+  //         localStorage.removeItem('isAuthenticated');
+  //       }
+  //     },
+  //   });
+  // }
 }
