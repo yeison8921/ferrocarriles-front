@@ -84,6 +84,21 @@ export class AuthService {
     );
   }
 
+  resetPassword(id: number | null, password: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token()}`,
+    });
+
+    return this.http.post(
+      `${this.apiUrl}/users/resetPassword`,
+      { id: id, password: password },
+      {
+        headers,
+      }
+    );
+  }
+
   performLogout(): void {
     this.logout().subscribe({
       next: () => {

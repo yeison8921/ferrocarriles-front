@@ -30,11 +30,9 @@ export class ChangePasswordComponent {
   @Input() isAdmin!: boolean;
   @Output() pageSelectionChanged = new EventEmitter<void>();
 
-  passwordRegex: string =
-    '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&/])[A-Za-zd@$!%*?&/]{8,}$';
   form: FormGroup;
   name: string | null = '';
-  arrayValdationRules = [
+  arrayValidationRules = [
     '',
     Validators.compose([
       Validators.required,
@@ -53,8 +51,8 @@ export class ChangePasswordComponent {
     this.form = this.fb.group(
       {
         currentPassword: ['', Validators.required],
-        newPassword: this.arrayValdationRules,
-        confirmPassword: this.arrayValdationRules,
+        newPassword: this.arrayValidationRules,
+        confirmPassword: this.arrayValidationRules,
       },
       { validators: this.passwordsMatchValidator }
     );
