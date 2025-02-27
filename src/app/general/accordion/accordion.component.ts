@@ -235,15 +235,18 @@ export class AccordionComponent {
       return;
     }
     this.showLoading();
-    this.accordionService
-      .addMultipleCategories(this.form.value)
-      .subscribe((data) => {
+    this.accordionService.addMultipleCategories(this.form.value).subscribe({
+      next: (data) => {
         this.showMessage('success', data.message);
         setTimeout(() => {
           this.closeModalCategories();
           this.reloadData();
         }, 1000);
-      });
+      },
+      error: (error) => {
+        this.showMessage('error', error.message);
+      },
+    });
   }
 
   reloadData() {
@@ -315,13 +318,18 @@ export class AccordionComponent {
       formData.append('files[]', file, file.name);
     });
 
-    this.accordionService.addMultipleDocuments(formData).subscribe((data) => {
-      this.showMessage('success', data.message);
-      setTimeout(() => {
-        this.closeModalDocuments();
-        this.resetNgxDropzone();
-        this.reloadData();
-      }, 1000);
+    this.accordionService.addMultipleDocuments(formData).subscribe({
+      next: (data) => {
+        this.showMessage('success', data.message);
+        setTimeout(() => {
+          this.closeModalDocuments();
+          this.resetNgxDropzone();
+          this.reloadData();
+        }, 1000);
+      },
+      error: (error) => {
+        this.showMessage('error', error.message);
+      },
     });
   }
 

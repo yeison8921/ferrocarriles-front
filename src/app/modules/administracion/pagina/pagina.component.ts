@@ -265,16 +265,19 @@ export class PaginaComponent {
 
   onSubmitCatergorias() {
     this.showLoading();
-    this.accordionService
-      .addMultipleCategories(this.form.value)
-      .subscribe((data) => {
+    this.accordionService.addMultipleCategories(this.form.value).subscribe({
+      next: (data) => {
         this.showMessage('success', data.message);
         setTimeout(() => {
           this.closeModalCategoriesPrincipal();
           this.cleanForm();
           this.onPageSelectionChange();
         }, 2000);
-      });
+      },
+      error: (error) => {
+        this.showMessage('error', error.message);
+      },
+    });
   }
 
   cleanForm() {
