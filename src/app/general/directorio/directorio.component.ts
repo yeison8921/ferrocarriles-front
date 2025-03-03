@@ -1,13 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgFor, NgIf, NgClass } from '@angular/common';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
-import { Modal } from 'bootstrap';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DirectorioService } from './directorio.service';
 import { Router } from '@angular/router';
@@ -28,27 +22,19 @@ export class DirectorioComponent {
   @Input() area: any;
   @Input() isAdmin!: boolean;
   @Output() pageSelectionChanged = new EventEmitter<void>();
+  @Output() onGetFuncionario = new EventEmitter<number>();
+  @Output() onResetFormFuncionario = new EventEmitter<number>();
+  @Output() onOpenModalFuncionarios = new EventEmitter<void>();
 
-  form: FormGroup;
-
-  isCreate: boolean = true; //true => create, false => edit
   funcionarioId: number = 0;
-  areaId: number = 0;
 
   constructor(
-    private fb: FormBuilder,
     private directorioService: DirectorioService,
     private router: Router
-  ) {
-    this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      cargo: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]],
-      ubicacion: ['', Validators.required],
-      ciudad: ['', Validators.required],
-      telefono: ['', Validators.required],
-      area_id: [''],
-    });
+  ) {}
+
+  openModalFuncionarios() {
+    this.onOpenModalFuncionarios.emit();
   }
 
   deleteFuncionario(name: string, funcionarioId: number) {
@@ -65,14 +51,26 @@ export class DirectorioComponent {
       if (result.isConfirmed) {
         this.showLoading();
 
-        this.directorioService
-          .deleteFuncionario(funcionarioId)
-          .subscribe((data) => {
+        this.directorioService.deleteFuncionario(funcionarioId).subscribe({
+          next: (data) => {
             this.showMessage('success', data.message);
             setTimeout(() => {
               this.reloadData();
             }, 1000);
-          });
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('isAuthenticated');
+              this.router.navigate(['/login']);
+            } else {
+              this.showMessage(
+                'error',
+                'Ha ocurrido un error al eliminar el funcionario, por favor inténtelo de nuevo'
+              );
+            }
+          },
+        });
       }
     });
   }
@@ -91,11 +89,25 @@ export class DirectorioComponent {
       if (result.isConfirmed) {
         this.showLoading();
 
-        this.directorioService.deleteArea(areaId).subscribe((data) => {
-          this.showMessage('success', data.message);
-          setTimeout(() => {
-            this.reloadData();
-          }, 1000);
+        this.directorioService.deleteArea(areaId).subscribe({
+          next: (data) => {
+            this.showMessage('success', data.message);
+            setTimeout(() => {
+              this.reloadData();
+            }, 1000);
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('isAuthenticated');
+              this.router.navigate(['/login']);
+            } else {
+              this.showMessage(
+                'error',
+                'Ha ocurrido un error al eliminar el área, por favor inténtelo de nuevo'
+              );
+            }
+          },
         });
       }
     });
@@ -119,11 +131,25 @@ export class DirectorioComponent {
         if (area == '') {
           Swal.showValidationMessage(`Debe diligenciar el nombre del área`);
         } else {
-          this.directorioService.updateArea(areaId, area).subscribe((data) => {
-            this.showMessage('success', data.message);
-            setTimeout(() => {
-              this.reloadData();
-            }, 2000);
+          this.directorioService.updateArea(areaId, area).subscribe({
+            next: (data) => {
+              this.showMessage('success', data.message);
+              setTimeout(() => {
+                this.reloadData();
+              }, 2000);
+            },
+            error: (error) => {
+              if (error.status === 401) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('isAuthenticated');
+                this.router.navigate(['/login']);
+              } else {
+                this.showMessage(
+                  'error',
+                  'Ha ocurrido un error al actualizar la información, por favor inténtelo de nuevo'
+                );
+              }
+            },
           });
         }
       },
@@ -135,20 +161,8 @@ export class DirectorioComponent {
     this.pageSelectionChanged.emit();
   }
 
-  resetForm() {
-    this.form.reset();
-  }
-
-  openModalFuncionarios() {
-    const modalElement = document.getElementById('modalFuncionarios');
-    const modalInstance = new Modal(modalElement!);
-    modalInstance.show();
-  }
-
-  closeModalFuncionarios(): void {
-    const modalElement = document.getElementById('modalFuncionarios');
-    const modal = Modal.getInstance(modalElement!);
-    modal?.hide();
+  resetForm(areaId: number) {
+    this.onResetFormFuncionario.emit(areaId);
   }
 
   showMessage(
@@ -185,69 +199,6 @@ export class DirectorioComponent {
   }
 
   getFuncionario() {
-    this.directorioService
-      .getFuncionario(this.funcionarioId)
-      .subscribe((data) => {
-        this.form.patchValue({
-          area_id: data.area_id,
-          nombre: data.nombre,
-          cargo: data.cargo,
-          correo: data.correo,
-          ubicacion: data.ubicacion,
-          ciudad: data.ciudad,
-          telefono: data.telefono,
-        });
-      });
-  }
-
-  onSubmit() {
-    if (this.isCreate) {
-      this.form.patchValue({ area_id: this.areaId });
-      this.directorioService.addFuncionario(this.form.value).subscribe({
-        next: (data) => {
-          this.showMessage('success', data.message);
-          setTimeout(() => {
-            this.closeModalFuncionarios();
-            this.reloadData();
-          }, 1000);
-        },
-        error: (error) => {
-          if (error.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('isAuthenticated');
-            this.router.navigate(['/login']);
-          } else {
-            this.showMessage(
-              'error',
-              'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
-            );
-          }
-        },
-      });
-    } else {
-      this.directorioService
-        .updateFuncionario(this.funcionarioId, this.form.value)
-        .subscribe({
-          next: (data) => {
-            this.showMessage('success', data.message);
-            setTimeout(() => {
-              this.closeModalFuncionarios();
-              this.reloadData();
-            }, 1000);
-          },
-          error: (error) => {
-            if (error.status === 401) {
-              localStorage.removeItem('token');
-              localStorage.removeItem('isAuthenticated');
-              this.router.navigate(['/login']);
-            } else {
-              this.showMessage(
-                'error',
-                'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
-              );
-            }
-          },
-        });
-    }
+    this.onGetFuncionario.emit(this.funcionarioId);
   }
 }

@@ -37,6 +37,7 @@ import {
 } from 'ckeditor5';
 import { AccordionService } from '../../../general/accordion/accordion.service';
 import { AuthService } from '../../../auth/login/auth.service';
+import { DirectorioService } from '../../../general/directorio/directorio.service';
 
 interface Page {
   value: number;
@@ -70,13 +71,18 @@ export interface Category {
 export class PaginaComponent {
   form: FormGroup;
   formArea: FormGroup;
+  formFuncionario: FormGroup;
+  isCreateFuncionario: boolean = true; //true => create, false => edit
+  funcionarioId: number = 0;
+  areaIdFuncionario: number = 0;
 
   constructor(
     private paginaService: PaginaService,
     private fb: FormBuilder,
     private accordionService: AccordionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private directorioService: DirectorioService
   ) {
     this.form = this.fb.group({
       elements: this.fb.array([]), // Initialize empty FormArray
@@ -85,6 +91,16 @@ export class PaginaComponent {
     this.formArea = this.fb.group({
       nombre: ['', Validators.required],
       directorio_id: [''],
+    });
+
+    this.formFuncionario = this.fb.group({
+      nombre: ['', Validators.required],
+      cargo: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      ubicacion: ['', Validators.required],
+      ciudad: ['', Validators.required],
+      telefono: ['', Validators.required],
+      area_id: [''],
     });
   }
 
@@ -143,6 +159,93 @@ export class PaginaComponent {
   removeCategoryForm(index: number) {
     this.elements.removeAt(index);
   }
+
+  onOpenModalFuncionarios() {
+    const modalElement = document.getElementById('modalFuncionarios');
+    const modalInstance = new Modal(modalElement!);
+    modalInstance.show();
+  }
+
+  onCloseModalFuncionarios(): void {
+    const modalElement = document.getElementById('modalFuncionarios');
+    const modal = Modal.getInstance(modalElement!);
+    modal?.hide();
+  }
+
+  onGetFuncionario(funcionarioId: number) {
+    this.isCreateFuncionario = false;
+    this.funcionarioId = funcionarioId;
+    this.directorioService.getFuncionario(funcionarioId).subscribe((data) => {
+      this.formFuncionario.patchValue({
+        area_id: data.area_id,
+        nombre: data.nombre,
+        cargo: data.cargo,
+        correo: data.correo,
+        ubicacion: data.ubicacion,
+        ciudad: data.ciudad,
+        telefono: data.telefono,
+      });
+    });
+  }
+
+  onResetFormFuncionario(areaIdFuncionario: number) {
+    this.isCreateFuncionario = true;
+    this.formFuncionario.reset();
+    this.formFuncionario.patchValue({ area_id: areaIdFuncionario });
+  }
+
+  onSubmitFuncionario() {
+    if (this.isCreateFuncionario) {
+      this.directorioService
+        .addFuncionario(this.formFuncionario.value)
+        .subscribe({
+          next: (data) => {
+            this.showMessage('success', data.message);
+            setTimeout(() => {
+              this.onCloseModalFuncionarios();
+              this.onPageSelectionChange();
+            }, 1000);
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('isAuthenticated');
+              this.router.navigate(['/login']);
+            } else {
+              this.showMessage(
+                'error',
+                'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
+              );
+            }
+          },
+        });
+    } else {
+      this.directorioService
+        .updateFuncionario(this.funcionarioId, this.formFuncionario.value)
+        .subscribe({
+          next: (data) => {
+            this.showMessage('success', data.message);
+            setTimeout(() => {
+              this.onCloseModalFuncionarios();
+              this.onPageSelectionChange();
+            }, 1000);
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('isAuthenticated');
+              this.router.navigate(['/login']);
+            } else {
+              this.showMessage(
+                'error',
+                'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
+              );
+            }
+          },
+        });
+    }
+  }
+
   pages: Page[] = [];
   page: number = 0;
   sectionId: number = 0;
