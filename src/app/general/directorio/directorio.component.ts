@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DirectorioService } from './directorio.service';
+import { Router } from '@angular/router';
 
 export interface Category {
   name: string;
@@ -36,7 +37,8 @@ export class DirectorioComponent {
 
   constructor(
     private fb: FormBuilder,
-    private directorioService: DirectorioService
+    private directorioService: DirectorioService,
+    private router: Router
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -201,24 +203,50 @@ export class DirectorioComponent {
   onSubmit() {
     if (this.isCreate) {
       this.form.patchValue({ area_id: this.areaId });
-      this.directorioService
-        .addFuncionario(this.form.value)
-        .subscribe((data) => {
+      this.directorioService.addFuncionario(this.form.value).subscribe({
+        next: (data) => {
           this.showMessage('success', data.message);
           setTimeout(() => {
             this.closeModalFuncionarios();
             this.reloadData();
           }, 1000);
-        });
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('isAuthenticated');
+            this.router.navigate(['/login']);
+          } else {
+            this.showMessage(
+              'error',
+              'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
+            );
+          }
+        },
+      });
     } else {
       this.directorioService
         .updateFuncionario(this.funcionarioId, this.form.value)
-        .subscribe((data) => {
-          this.showMessage('success', data.message);
-          setTimeout(() => {
-            this.closeModalFuncionarios();
-            this.reloadData();
-          }, 1000);
+        .subscribe({
+          next: (data) => {
+            this.showMessage('success', data.message);
+            setTimeout(() => {
+              this.closeModalFuncionarios();
+              this.reloadData();
+            }, 1000);
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              localStorage.removeItem('token');
+              localStorage.removeItem('isAuthenticated');
+              this.router.navigate(['/login']);
+            } else {
+              this.showMessage(
+                'error',
+                'Ha ocurrido un error al guardar la información, por favor inténtelo de nuevo'
+              );
+            }
+          },
         });
     }
   }
