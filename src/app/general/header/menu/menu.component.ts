@@ -150,6 +150,13 @@ export class MenuComponent {
             active: false,
             submenu: [],
           },
+           {
+            id: 4,
+            nombre: 'Directorio telefónico',
+            url: '/entidad/directorio-telefonico',
+            active: false,
+            submenu: [],
+          },
         ];
 
         if (this.role !== 1) {
