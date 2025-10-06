@@ -5,6 +5,7 @@ import { LayoutLoginComponent } from './auth/layout/layout.component';
 import { AuthGuard } from './auth.guard';
 import { IsSignedInGuard } from './IsSignedInGuard';
 import { AdministracionComponent } from './modules/administracion/administracion.component';
+import { RepositorioConocimientoComponent } from './repositorio-conocimiento-component/repositorio-conocimiento-component';
 import { ChangePasswordComponent } from './general/change-password/change-password.component';
 import { HomeComponent } from './home/home.component';
 

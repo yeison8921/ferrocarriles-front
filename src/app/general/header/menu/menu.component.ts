@@ -106,8 +106,9 @@ export class MenuComponent {
             url: '/entidad/recursos',
             active: false,
             submenu: [],
-            
+
           },
+          
           {
             id: 3,
             nombre: 'Sistema integrado de gestión',
@@ -141,6 +142,13 @@ export class MenuComponent {
                 active: false,
               },
             ],
+          },
+            {
+            id: 4,
+            nombre: 'Directorio telefónico',
+            url: '/entidad/directorio-telefonico',
+            active: false,
+            submenu: [],
           },
         ];
 
