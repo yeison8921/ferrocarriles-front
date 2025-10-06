@@ -30,6 +30,11 @@ export let routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'repositorio-conocimiento',
+    component: RepositorioConocimientoComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'entidad',
     component: EntidadComponent,
     canActivate: [AuthGuard],
