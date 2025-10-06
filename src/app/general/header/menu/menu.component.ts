@@ -106,6 +106,7 @@ export class MenuComponent {
             url: '/entidad/recursos',
             active: false,
             submenu: [],
+            
           },
           {
             id: 3,
