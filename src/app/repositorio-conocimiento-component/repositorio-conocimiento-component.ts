@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-repositorio-conocimiento-component',
-  imports: [],
   standalone: true,
+  imports: [],
   templateUrl: './repositorio-conocimiento-component.html',
-  styleUrl: './repositorio-conocimiento-component.css'
+  styleUrls: ['./repositorio-conocimiento-component.css']
 })
 export class RepositorioConocimientoComponent {
 
